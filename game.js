@@ -61,7 +61,7 @@ function create() {
     cursors = this.input.keyboard.createCursorKeys();
 
     scoreText = this.add.text(10, 10, 'Score: 0', { fontSize: '32px', fill: FONT_COLOR });
-    highScoreText = this.add.text(10, 50, 'High Score: 0', { fontSize: '32px', fill: FONT_COLOR });
+    highScoreText = this.add.text(10, 50, 'High Score: ' + highScore, { fontSize: '32px', fill: FONT_COLOR });
 
     lastScoreUpdateTime = this.time.now;
 }
@@ -94,6 +94,14 @@ function update(time, delta) {
         scoreText.setText('Score: ' + score);
         lastScoreUpdateTime = time;
     }
+
+    // Wrap circles around the screen
+    circles.children.iterate(function (circle) {
+        if (circle.x < 0) circle.x = SCREEN_WIDTH;
+        if (circle.x > SCREEN_WIDTH) circle.x = 0;
+        if (circle.y < 0) circle.y = SCREEN_HEIGHT;
+        if (circle.y > SCREEN_HEIGHT) circle.y = 0;
+    });
 }
 
 function hitCircle(plane, circle) {
@@ -103,5 +111,8 @@ function hitCircle(plane, circle) {
     }
     score = 0;
     scoreText.setText('Score: ' + score);
-    this.scene.restart();
+    this.scene.restart({
+        score: score,
+        highScore: highScore
+    });
 }
