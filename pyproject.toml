@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "plane-dodge-game"
+version = "0.1.0"
+description = "Chinese Plane Dodge Game"
+authors = ["Kevin Rosa <kevin@current-lab.com>"]
+readme = "README.md"
+package-mode = false  # Add this line to disable package mode
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pygame = "^2.6.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
