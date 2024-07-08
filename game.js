@@ -1,7 +1,17 @@
+// Global Constants
+const SCREEN_WIDTH = 900;
+const SCREEN_HEIGHT = 900;
+const NUM_CIRCLES = 60;
+const CIRCLE_RADIUS = 600;  // Starting distance from the center of the screen
+const SPEED_MIN = 3;  // Pixels per frame
+const SPEED_MAX = 4.5;
+const FONT_COLOR = '#FFFFFF';
+
+// Phaser Config
 const config = {
     type: Phaser.AUTO,
-    width: 900,
-    height: 900,
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
     backgroundColor: '#000000',
     physics: {
         default: 'arcade',
@@ -15,13 +25,6 @@ const config = {
         update: update
     }
 };
-
-// Constants
-const NUM_CIRCLES = 60;
-const CIRCLE_RADIUS = 600;  // Starting distance from the center of the screen
-const SPEED_MIN = 3;  // Pixels per frame
-const SPEED_MAX = 4.5;
-const FONT_COLOR = '#FFFFFF';
 
 let plane;
 let cursors;
@@ -40,20 +43,20 @@ function preload() {
 }
 
 function create() {
-    plane = this.physics.add.sprite(450, 450, 'plane').setCollideWorldBounds(true);
+    plane = this.physics.add.sprite(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 'plane').setCollideWorldBounds(true);
 
     circles = this.physics.add.group({
         key: 'circle',
         repeat: NUM_CIRCLES - 1,
-        setXY: { x: 450, y: 450, stepX: 20 }
+        setXY: { x: SCREEN_WIDTH / 2, y: SCREEN_HEIGHT / 2, stepX: 20 }
     });
 
     circles.children.iterate(function (circle) {
         const angle = Phaser.Math.Between(0, 360);
         const speed = Phaser.Math.Between(SPEED_MIN * 60, SPEED_MAX * 60);
         this.physics.velocityFromAngle(angle, speed, circle.body.velocity);
-        circle.x += Math.cos(angle) * CIRCLE_RADIUS + Phaser.Math.Between(-50, 50);
-        circle.y += Math.sin(angle) * CIRCLE_RADIUS + Phaser.Math.Between(-50, 50);
+        circle.x = SCREEN_WIDTH / 2 + Math.cos(angle) * CIRCLE_RADIUS + Phaser.Math.Between(-50, 50);
+        circle.y = SCREEN_HEIGHT / 2 + Math.sin(angle) * CIRCLE_RADIUS + Phaser.Math.Between(-50, 50);
     }, this);
 
     this.physics.add.collider(plane, circles, hitCircle, null, this);
@@ -111,8 +114,5 @@ function hitCircle(plane, circle) {
     }
     score = 0;
     scoreText.setText('Score: ' + score);
-    this.scene.restart({
-        score: score,
-        highScore: highScore
-    });
+    this.scene.restart();
 }
