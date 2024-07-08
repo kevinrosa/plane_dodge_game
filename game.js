@@ -1,10 +1,10 @@
 // Global Constants
 const SCREEN_WIDTH = 900;
 const SCREEN_HEIGHT = 900;
-const NUM_CIRCLES = 60;
+const NUM_CIRCLES = 100;
 const CIRCLE_RADIUS = 600;  // Starting distance from the center of the screen
-const SPEED_MIN = 3;  // Pixels per frame
-const SPEED_MAX = 4.5;
+const SPEED_MIN = 2;  // Pixels per frame
+const SPEED_MAX = 2;
 const FONT_COLOR = '#FFFFFF';
 
 // Phaser Config
